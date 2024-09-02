@@ -1,35 +1,48 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {useState} from 'react';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
+import { ModalPassword } from './src/componentes/index';
  
 let charset = "abcdefghijklmnopqrstuvwxyz!#$&%0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
  
-export default function App() {
-  const[senhaGerada, setSenhaGerada] = useState("")
-  function gerarSenha(){
-  let senha = "";
  
-  for(let i = 0, n = charset.length; i< 10; i++){
-    senha += charset.charAt(Math.floor(Math.random() * n))
+ 
+export default function App() {
+ 
+  const [senhaGerada, setSenhaGerada] = useState("")
+  const [modalVisible, setModalVisible] = useState(false)
+ 
+  function gerarSenha() {
+ 
+    let senha = "";
+ 
+    for (let i = 0, n = charset.length; i < 10; i++) {
+      senha += charset.charAt(Math.floor(Math.random() * n))
+ 
+    }
+ 
+    setSenhaGerada(senha)
+    setModalVisible(true);
   }
-  setSenhaGerada(senha)
-  }
+ 
  
   return (
     <View style={styles.container}>
-  <Image
-  source={require("./src/img/logolock.png")}
-  style={styles.logo}
-  />
+      <Image
+        source={require("./src/img/logolock.png")}
+        styles={styles.logo}
+      />
  
-  <Text style={styles.title}>LokGen</Text>
+      <Text style={styles.title}>LockGen</Text>
  
-  <TouchableOpacity style={styles.button} onPress={gerarSenha}>
-    <Text style={styles.textButton}>Gerar senha</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={gerarSenha}>
+        <Text style={styles.textButton}>Gerar Senha!!</Text>
+      </TouchableOpacity>
  
-   
-  <Text style={styles.genText}>{senhaGerada}</Text>
- 
-    </View>    
+      <Modal visible={modalVisible} animationType='fade' transparent={true}>
+        <ModalPassword />
+      </Modal>
+      <Text style={styles.genText}> {senhaGerada}</Text>
+    </View>
   );
 }
  
@@ -40,36 +53,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    marginBottom: 20,
  
-  logo:{
-     marginButon:20,
   },
  
-  title:{
-    fontWeight:"bold",
+  title: {
+    fontWeight: 'bold',
     fontSize: 28,
     marginBottom: 20,
   },
  
-  button:{
-    backgroundColor: "#333",
-    width: "70%",
+  button: {
+    backgroundColor: '#333',
+    width: '70%',
     height: 50,
-    borderRadius:8,
-    alignItems: "center",
-    justifyContent:"center",
- 
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
  
-  textButton:{
-    color: "#fff",
-    fontWeight:"bold",
+  textButton: {
+    color: '#fff',
+    fontWeight: 'bold',
     fontSize: 18,
   },
  
-  genText:{
-    color: "#333",
-    fontWeight:"bold",
+  genText: {
+    color: '#333',
+    fontWeight: 'bold',
     fontSize: 18,
+    marginTop: 20,
   }
 });
